@@ -42,14 +42,18 @@
          (map #(manhattan-distance central-port %))
          (apply min))))
 
-(defn steps [point & paths]
-  (reduce + (map #(.indexOf % point) paths)))
+(defn points->steps [points]
+  (into {} (map-indexed (fn [i point] [point i])) points))
+
+(defn sum-steps [point & step-counts]
+  (reduce + (map #(get % point) step-counts)))
 
 (defn part-2 []
-  (let [paths (map wire->points wires)
-        intersections (apply set/intersection (map set paths))]
+  (let [points (map wire->points wires)
+        intersections (apply set/intersection (map set points))
+        step-counts (map points->steps points)]
     (->> (disj intersections central-port)
-         (map #(apply steps % paths))
+         (map #(apply sum-steps % step-counts))
          (apply min))))
 
 (comment
