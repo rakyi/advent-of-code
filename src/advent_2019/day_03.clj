@@ -27,7 +27,7 @@
               (into points
                     (map (fn [coord] (assoc last-point axis coord)))
                     (range start end step))))
-          [{:x 0 :y 0}]
+          [central-port]
           wire))
 
 (defn manhattan-distance [p1 p2]
